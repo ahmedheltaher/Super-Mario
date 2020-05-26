@@ -1,0 +1,23 @@
+{
+  "name": "super-mario",
+  "version": "1.0.0",
+  "description": "a Super Mario clone game written in  pure JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve ./public",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EpicCoder2002/Super-Mario.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EpicCoder2002/Super-Mario/issues"
+  },
+  "homepage": "https://github.com/EpicCoder2002/Super-Mario#readme",
+  "dependencies": {
+    "serve": "^11.3.1"
+  }
+}
