@@ -1,30 +1,47 @@
-import SpriteSheet from './SpriteSheet.js';
+import Compositor from './Compositor.js';
 import {
-    loadImage, loadLevel
+    loadLevel
 } from './loaders.js';
+import {
+    loadMarioSprite,
+    loadBackgroundSprites
+} from './sprites.js';
+import { createBackgroundLayer } from './layers.js';
 
-var drawBackground = function (background, context, sprites) {
-    background.ranges.forEach(([x1, x2, y1, y2]) => {
-        for (let x = x1; x < x2; x++) {
-            for (let y = y1; y < y2; y++) {
-                sprites.drawTile(background.tile, context, x, y);
-            }
-        }
-    });
-};
+
 
 const canvas = document.querySelector('#screen');
 const context = canvas.getContext('2d');
 
-loadImage('/images/tiles.png')
-    .then(image => {
-        const sprites = new SpriteSheet(image, 16, 16);
-        sprites.define('ground', 0, 0);
-        sprites.define('sky', 3, 23);
+var createSpriteLayer = function(sprite, position) {
+    return function drawSpriteLayer(context) {
+        for (let i = 0; i < 20; i++) {
+            sprite.draw('idle', context, position.x + i * 16, position.y);
+
+        }
+    };
+};
+
+Promise.all([
+        loadMarioSprite(),
+        loadBackgroundSprites(),
         loadLevel('1-1')
-        .then(level => {
-            level.backgrounds.forEach(background => {
-                drawBackground(background, context, sprites);
-            });
-        });
+    ])
+    .then(([marioSprite, backgroundSprites, level]) => {
+        const compositor = new Compositor();
+        const backgroundLayer = createBackgroundLayer(level.backgrounds, backgroundSprites);
+        compositor.addLayer(backgroundLayer);
+        const position = {
+            x: 64,
+            y: 64
+        };
+        const spriteLayer = createSpriteLayer(marioSprite, position);
+        compositor.addLayer(spriteLayer);
+        var update = function() {
+            compositor.draw(context);
+            position.x += 2;
+            position.y += 2;
+            requestAnimationFrame(update);
+        };
+        update();
     });

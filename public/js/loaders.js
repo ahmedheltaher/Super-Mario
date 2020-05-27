@@ -14,7 +14,6 @@ export var loadLevel = function (name) {
     .then(result => result.json());
 };
 
-
 // export var loadLevel = async function (name) {
 //     const result = await fetch(`/levels/${name}.json`);
 //     return await result.json();

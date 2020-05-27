@@ -5,18 +5,25 @@ export default class SpriteSheet {
         this.height = height;
         this.tiles = new Map();
     }
-    define(name, x, y) {
+    register(name, x, y, width, height) {
+        if (this.tiles.get(name)) {
+            console.error(`There is already a tile Registered With Name: ${name}`);
+            return false;
+        }
         const buffer = document.createElement('canvas');
         buffer.width = this.width;
-        buffer.height = this.height;
-        buffer.getContext('2d').drawImage(this.image, x * this.width, y * this.height, this.width, this.height, 0, 0, this.width, this.height);
+        buffer.height = height;
+        buffer.getContext('2d').drawImage(this.image, x, y , width, height, 0, 0, width, height);
         this.tiles.set(name, buffer);
+        return true;
+    }
+    registerTile(name, x, y) {
+        this.register(name, x * this.width, y * this.height, this.width, this.height);
     }
     draw(name, context, x, y) {
         const buffer = this.tiles.get(name);
         context.drawImage(buffer, x, y);
     }
-
     drawTile(name, context, x, y) {
         this.draw(name, context, x * this.width, y * this.height);
     }

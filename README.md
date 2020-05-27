@@ -1,2 +1,3 @@
 # Super-Mario
-a Super Mario clone game written in  pure JavaScript 
+
+a Super Mario clone game written in  pure JavaScript
