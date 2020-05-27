@@ -7,7 +7,7 @@ export default class Compositor {
             layer(context);
         });
     }
-    addLayer(layer) {
+    newLayer(layer) {
         this.layers.push(layer);
     }
 }

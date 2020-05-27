@@ -1,47 +1,47 @@
 import Compositor from './Compositor.js';
+import Timer from './Timer.js';
 import {
     loadLevel
 } from './loaders.js';
 import {
-    loadMarioSprite,
     loadBackgroundSprites
 } from './sprites.js';
-import { createBackgroundLayer } from './layers.js';
+import {
+    createMario
+} from './entities.js';
+import {
+    createBackgroundLayer,
+    createSpriteLayer
+} from './layers.js';
 
 
 
 const canvas = document.querySelector('#screen');
 const context = canvas.getContext('2d');
 
-var createSpriteLayer = function(sprite, position) {
-    return function drawSpriteLayer(context) {
-        for (let i = 0; i < 20; i++) {
-            sprite.draw('idle', context, position.x + i * 16, position.y);
-
-        }
-    };
-};
-
 Promise.all([
-        loadMarioSprite(),
+        createMario(),
         loadBackgroundSprites(),
         loadLevel('1-1')
     ])
-    .then(([marioSprite, backgroundSprites, level]) => {
+    .then(([mario, backgroundSprites, level]) => {
         const compositor = new Compositor();
+        
         const backgroundLayer = createBackgroundLayer(level.backgrounds, backgroundSprites);
-        compositor.addLayer(backgroundLayer);
-        const position = {
-            x: 64,
-            y: 64
-        };
-        const spriteLayer = createSpriteLayer(marioSprite, position);
-        compositor.addLayer(spriteLayer);
-        var update = function() {
+        compositor.newLayer(backgroundLayer);
+        
+        const gravity = 30;
+        mario.position.set(64, 180);
+        mario.velocity.set(200, -600);
+        
+        const spriteLayer = createSpriteLayer(mario);
+        compositor.newLayer(spriteLayer);
+        
+        const timer = new Timer(1/60);
+        timer.update = function update(deltaTime) {
             compositor.draw(context);
-            position.x += 2;
-            position.y += 2;
-            requestAnimationFrame(update);
+            mario.update(deltaTime);
+            mario.velocity.y += gravity;
         };
-        update();
+        timer.start();
     });

@@ -19,3 +19,13 @@ export var createBackgroundLayer = function (backgrounds, sprites) {
         context.drawImage(buffer, 0, 0);
     };
 };
+
+export var createSpriteLayer = function (entity) {
+    return function drawSpriteLayer(context) {
+        if (typeof entity.draw === 'undefined') {
+            console.error(`This Entity Dose not Have a Drawing Method You should attache method to him or there is a problem in this entity's drawing method`);
+        } else {
+            entity.draw(context);
+        }
+    };
+};

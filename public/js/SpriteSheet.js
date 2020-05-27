@@ -6,7 +6,7 @@ export default class SpriteSheet {
         this.tiles = new Map();
     }
     register(name, x, y, width, height) {
-        if (this.tiles.get(name)) {
+        if (this.isRegistered(name)) {
             console.error(`There is already a tile Registered With Name: ${name}`);
             return false;
         }
@@ -19,6 +19,9 @@ export default class SpriteSheet {
     }
     registerTile(name, x, y) {
         this.register(name, x * this.width, y * this.height, this.width, this.height);
+    }
+    isRegistered(name) {
+        return (this.tiles.get(name) ? true : false);
     }
     draw(name, context, x, y) {
         const buffer = this.tiles.get(name);
