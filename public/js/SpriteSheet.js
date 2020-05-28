@@ -6,22 +6,14 @@ export default class SpriteSheet {
         this.tiles = new Map();
     }
     register(name, x, y, width, height) {
-        if (this.isRegistered(name)) {
-            console.error(`There is already a tile Registered With Name: ${name}`);
-            return false;
-        }
         const buffer = document.createElement('canvas');
-        buffer.width = this.width;
+        buffer.width = width;
         buffer.height = height;
         buffer.getContext('2d').drawImage(this.image, x, y , width, height, 0, 0, width, height);
         this.tiles.set(name, buffer);
-        return true;
     }
     registerTile(name, x, y) {
         this.register(name, x * this.width, y * this.height, this.width, this.height);
-    }
-    isRegistered(name) {
-        return (this.tiles.get(name) ? true : false);
     }
     draw(name, context, x, y) {
         const buffer = this.tiles.get(name);

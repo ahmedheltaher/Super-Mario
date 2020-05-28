@@ -7,7 +7,7 @@ export default class Compositor {
             layer(context);
         });
     }
-    newLayer(layer) {
-        this.layers.push(layer);
+    newLayer(newLayer) {
+        this.layers.push(newLayer);
     }
 }
