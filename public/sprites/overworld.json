@@ -1,0 +1,42 @@
+{
+    "imageURL": "/images/tiles.png",
+    "tileWidth": 16,
+    "tileHeight": 16,
+    "tiles": [
+        {
+            "name": "ground",
+            "coordinates": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "sky",
+            "coordinates": [
+                3,
+                23
+            ]
+        },
+        {
+            "name": "chocolate",
+            "coordinates": [
+                0,
+                1
+            ]
+        },
+        {
+            "name": "bricks",
+            "coordinates": [
+                1,
+                0
+            ]
+        },
+        {
+            "name": "chance",
+            "coordinates": [
+                24,
+                0
+            ]
+        }
+    ]
+}
