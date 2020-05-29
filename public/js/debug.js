@@ -1,4 +1,4 @@
-export var setupMouseControl = function (canvas, entity, camera) {
+export var setupMouseControl = (canvas, entity, camera) => {
     let lastEvent;
     ['mousedown', 'mousemove'].forEach(eventName => {
         canvas.addEventListener(eventName, event => {

@@ -6,7 +6,7 @@ import {
     loadMarioSprite,
 } from './sprites.js';
 
-export var createMario = function () {
+export var createMario = () => {
     return loadMarioSprite()
     .then(sprite => {
         const mario = new Entity();

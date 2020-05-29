@@ -4,7 +4,7 @@ const USED_KEYS = {
     RIGHT: 'KeyD',
     LEFT: 'KeyA'
 };
-export var setupKeyboard = function (entity) {
+export var setupKeyboard = (entity) => {
     const inputs = new keyboardState();
     inputs.addMapping(USED_KEYS.SPACE, keyState => {
         if (keyState) {
