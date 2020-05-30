@@ -6,17 +6,32 @@ import {
 } from './loaders.js';
 import { createAnimation } from './animation.js';
 
+const DRAG_SPEEDS = {
+    SLOW: 1/1000,
+    FAST:1/5000
+};
+
 export var createMario = () => {
     return loadSpriteSheet('mario')
     .then(sprite => {
         const mario = new Entity();
         mario.size.set(14, 16);
         mario.addTrait(new Go());
+        mario.go.resistanceForce = DRAG_SPEEDS.SLOW;
         mario.addTrait(new Jump());
-        const runAnimation = createAnimation(['run-1', 'run-2', 'run-3'], 10);
+        mario.turbo = function setTurboState(turboOn) {
+            this.go.resistanceForce = turboOn ? DRAG_SPEEDS.FAST : DRAG_SPEEDS.SLOW ;
+        };
+        const runAnimation = createAnimation(['run-1', 'run-2', 'run-3'], 6);
 
         var routeFrame = (mario) => {
-            if (mario.go.direction !== 0) {
+            if (mario.jump.falling) {
+                return 'jump';
+            }
+            if (mario.go.distance > 0) {
+                if ((mario.vel.x > 0 && mario.go.direction < 0 )|| (mario.vel.x < 0 && mario.go.direction > 0)) {
+                    return 'break';
+                }
                 return runAnimation(mario.go.distance);
             }
             return 'idle';

@@ -1,23 +1,27 @@
 import keyboardState from './keyboardState.js';
 const USED_KEYS = {
-    SPACE: 'Space',
+    JUMP: 'Space',
+    RUN: 'ShiftLeft',
     RIGHT: 'KeyD',
     LEFT: 'KeyA'
 };
-export var setupKeyboard = (entity) => {
+export var setupKeyboard = (mario) => {
     const inputs = new keyboardState();
-    inputs.addMapping(USED_KEYS.SPACE, keyState => {
+    inputs.addMapping(USED_KEYS.JUMP, keyState => {
         if (keyState) {
-            entity.jump.start();
+            mario.jump.start();
         } else {
-            entity.jump.cancel();
+            mario.jump.cancel();
         }
     });
+    inputs.addMapping(USED_KEYS.RUN, keyState => {
+        mario.turbo(keyState);
+    });
     inputs.addMapping(USED_KEYS.RIGHT, keyState => {
-        entity.go.direction = keyState;
+        mario.go.direction += keyState ? 1 : -1;
     });
     inputs.addMapping(USED_KEYS.LEFT, keyState => {
-        entity.go.direction = -keyState;
+        mario.go.direction += keyState ? -1 : 1;
     });
     return inputs;
 };

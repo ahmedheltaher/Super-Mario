@@ -1,9 +1,16 @@
-import { Vector2 } from "./math.js";
+import {
+    Vector2
+} from "./math.js";
 
+export const SIDES = {
+    TOP: Symbol('top'),
+    BOTTOM: Symbol('bottom')
+};
 export class Trait {
     constructor(name) {
         this.NAME = name;
     }
+    obstruct() {}
     update() {
         console.warn('Unhandled update call in Trait');
     }
@@ -17,9 +24,14 @@ export default class Entity {
 
         this.traits = [];
     }
-    addTrait(trait){
+    addTrait(trait) {
         this.traits.push(trait);
         this[trait.NAME] = trait;
+    }
+    obstruct(side) {
+        this.traits.forEach(trait => {
+            trait.obstruct(this, side);
+        });
     }
     update(deltaTime) {
         this.traits.forEach(trait => {
