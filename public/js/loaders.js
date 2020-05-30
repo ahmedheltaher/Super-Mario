@@ -4,6 +4,8 @@ import {
     createBackgroundLayer,
     createSpriteLayer
 } from './layers.js';
+import { createAnimation } from './animation.js';
+
 export var loadImage = (url) => {
     return new Promise(resolve => {
         const image = new Image();
@@ -19,7 +21,7 @@ var loadJSON = (url) => {
         .then(result => result.json());
 };
 
-var loadSpriteSheet = (name) => {
+export var loadSpriteSheet = (name) => {
     return loadJSON(`sprites/${name}.json`)
         .then(sheetSpec => Promise.all([
             sheetSpec,
@@ -27,9 +29,22 @@ var loadSpriteSheet = (name) => {
         ]))
         .then(([sheetSpec, image]) => {
             const sprites = new SpriteSheet(image, sheetSpec.tileWidth, sheetSpec.tileHeight);
-            sheetSpec.tiles.forEach(tileSpec => {
-                sprites.registerTile(tileSpec.name, tileSpec.coordinates[0], tileSpec.coordinates[1]);
-            });
+            if (sheetSpec.tiles) {
+                sheetSpec.tiles.forEach(tileSpec => {
+                    sprites.registerTile(tileSpec.name, ...tileSpec.coordinates);
+                });
+            }
+            if (sheetSpec.frames) {
+                sheetSpec.frames.forEach(frameSpec => {
+                    sprites.register(frameSpec.name, ...frameSpec.rect);
+                });
+            }
+            if (sheetSpec.animations) {
+                sheetSpec.animations.forEach(animationSpec => {
+                    const animation = createAnimation(animationSpec.frames, animationSpec.frameLength);
+                    sprites.registerAnimation(animationSpec.name, animation);
+                });
+            }
             return sprites;
         });
 };

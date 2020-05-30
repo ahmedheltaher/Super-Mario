@@ -7,11 +7,11 @@ import {
 
 export default class Level {
     constructor() {
+        this.gravity = 2000;
+        this.totalTime = 0;
         this.compositor = new Compositor();
         this.entities = new Set();
         this.tiles = new Matrix();
-        this.gravity = 2000;
-
         this.tileCollider = new TileCollider(this.tiles);
     }
     newEntity(entity) {
@@ -26,6 +26,7 @@ export default class Level {
             this.tileCollider.checkY(entity);
             entity.vel.y += this.gravity * deltaTime;
         });
+        this.totalTime += deltaTime;
     }
     initTiles(backgrounds) {
         function applyRange(level, background, xStart, xLength, yStart, yLength) {

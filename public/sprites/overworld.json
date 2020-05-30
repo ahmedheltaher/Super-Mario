@@ -37,6 +37,41 @@
                 24,
                 0
             ]
+        },
+        {
+            "name": "chance-1",
+            "coordinates": [
+                24,
+                0
+            ]
+        },
+        {
+            "name": "chance-2",
+            "coordinates": [
+                25,
+                0
+            ]
+        },
+        {
+            "name": "chance-3",
+            "coordinates": [
+                26,
+                0
+            ]
+        }
+    ],
+    "animations": [
+        {
+            "name": "chance",
+            "frameLength": 0.12,
+            "frames": [
+                "chance-1",
+                "chance-1",
+                "chance-2",
+                "chance-3",
+                "chance-2",
+                "chance-1"
+            ]
         }
     ]
 }
