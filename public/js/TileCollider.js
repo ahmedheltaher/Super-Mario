@@ -1,5 +1,7 @@
 import TileResolver from "./TileResolver.js";
-import { SIDES } from './Entity.js';
+import {
+    SIDES
+} from './Entity.js';
 export default class TileCollider {
     constructor(tileMatrix) {
         this.tiles = new TileResolver(tileMatrix);
@@ -8,8 +10,8 @@ export default class TileCollider {
         let x, y;
         if (entity.vel.x > 0) {
             x = entity.pos.x + entity.size.x;
-        } else  if (entity.vel.x < 0) {
-            x = entity.pos.x;            
+        } else if (entity.vel.x < 0) {
+            x = entity.pos.x;
         } else {
             return;
         }
@@ -37,8 +39,8 @@ export default class TileCollider {
         let y;
         if (entity.vel.y > 0) {
             y = entity.pos.y + entity.size.y;
-        } else  if (entity.vel.y < 0) {
-            y = entity.pos.y;            
+        } else if (entity.vel.y < 0) {
+            y = entity.pos.y;
         } else {
             return;
         }

@@ -5,11 +5,17 @@
     "tiles": [
         {
             "name": "ground",
-            "coordinates": [0, 2]
+            "coordinates": [
+                0,
+                2
+            ]
         },
         {
             "name": "sky",
-            "coordinates": [13, 3]
+            "coordinates": [
+                13,
+                3
+            ]
         }
     ]
 }

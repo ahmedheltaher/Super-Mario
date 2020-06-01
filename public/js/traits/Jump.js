@@ -1,5 +1,6 @@
 import {
-    Trait, SIDES
+    Trait,
+    SIDES
 } from '../Entity.js';
 
 export default class Jump extends Trait {
@@ -23,7 +24,7 @@ export default class Jump extends Trait {
         this.engagedTime = 0;
         this.requestTime = 0;
     }
-    obstruct(entity, side){
+    obstruct(entity, side) {
         if (side === SIDES.BOTTOM) {
             this.ready = 1;
         } else if (side == SIDES.TOP) {

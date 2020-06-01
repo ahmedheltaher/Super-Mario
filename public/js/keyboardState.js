@@ -24,13 +24,11 @@ export default class keyboardState {
         }
         event.preventDefault();
         const keyState = event.type === 'keydown' ? KEY_STATES_HOLDER.PRESSED : KEY_STATES_HOLDER.RELEASED;
-        
+
         if (this.keyStates.get(code) === keyState) {
             return;
         }
         this.keyStates.set(code, keyState);
-        console.log(this.keyStates);
-
         this.keyMap.get(code)(keyState);
     }
     listenTo(eventProvider) {
