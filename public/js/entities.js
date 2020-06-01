@@ -15,8 +15,6 @@ export function loadEntities() {
     function addAs(name) {
         return factory => entityFactories[name] = factory;
     }
-
-
     return Promise.all([
             loadMario().then(addAs('mario')),
             loadGoomba().then(addAs('goomba')),
