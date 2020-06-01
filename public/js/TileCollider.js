@@ -1,72 +1,82 @@
-import TileResolver from "./TileResolver.js";
-import {
-    SIDES
-} from './Entity.js';
+import TileResolver from './TileResolver.js';
+import {SIDES} from './Entity.js';
+
 export default class TileCollider {
     constructor(tileMatrix) {
         this.tiles = new TileResolver(tileMatrix);
     }
+
     checkX(entity) {
-        let x, y;
+        let x;
         if (entity.vel.x > 0) {
-            x = entity.pos.x + entity.size.x;
+            x = entity.bounds.right;
         } else if (entity.vel.x < 0) {
-            x = entity.pos.x;
+            x = entity.bounds.left;
         } else {
             return;
         }
 
-        const matches = this.tiles.searchByRange(x, x, entity.pos.y, entity.pos.y + entity.size.y);
+        const matches = this.tiles.searchByRange(
+            x, x,
+            entity.bounds.top, entity.bounds.bottom);
+
         matches.forEach(match => {
             if (match.tile.type !== 'ground') {
                 return;
             }
+
             if (entity.vel.x > 0) {
-                if (entity.pos.x + entity.size.x > match.x1) {
-                    entity.pos.x = match.x1 - entity.size.x;
+                if (entity.bounds.right > match.x1) {
+                    entity.bounds.right = match.x1;
                     entity.vel.x = 0;
+
+                    entity.obstruct(SIDES.RIGHT);
                 }
             } else if (entity.vel.x < 0) {
-                if (entity.pos.x < match.x2) {
-                    entity.pos.x = match.x2;
+                if (entity.bounds.left < match.x2) {
+                    entity.bounds.left = match.x2;
                     entity.vel.x = 0;
+
+                    entity.obstruct(SIDES.LEFT);
                 }
             }
         });
-
     }
+
     checkY(entity) {
         let y;
         if (entity.vel.y > 0) {
-            y = entity.pos.y + entity.size.y;
+            y = entity.bounds.bottom;
         } else if (entity.vel.y < 0) {
-            y = entity.pos.y;
+            y = entity.bounds.top;
         } else {
             return;
         }
-        const matches = this.tiles.searchByRange(entity.pos.x, entity.pos.x + entity.size.x, y, y);
+
+        const matches = this.tiles.searchByRange(
+            entity.bounds.left, entity.bounds.right,
+            y, y);
+
         matches.forEach(match => {
             if (match.tile.type !== 'ground') {
                 return;
             }
+
             if (entity.vel.y > 0) {
-                if (entity.pos.y + entity.size.y > match.y1) {
-                    entity.pos.y = match.y1 - entity.size.y;
+                if (entity.bounds.bottom > match.y1) {
+                    entity.bounds.bottom = match.y1;
                     entity.vel.y = 0;
+
                     entity.obstruct(SIDES.BOTTOM);
                 }
             } else if (entity.vel.y < 0) {
-                if (entity.pos.y < match.y2) {
-                    entity.pos.y = match.y2;
+                if (entity.bounds.top < match.y2) {
+                    entity.bounds.top = match.y2;
                     entity.vel.y = 0;
+
                     entity.obstruct(SIDES.TOP);
                 }
             }
         });
-
-    }
-    test(entity) {
-        // this.checkX(entity);
-        this.checkY(entity);
     }
 }

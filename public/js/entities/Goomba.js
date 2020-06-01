@@ -1,0 +1,30 @@
+import Entity, {
+    SIDES
+} from '../Entity.js';
+import {
+    loadSpriteSheet
+} from '../loaders.js';
+import PendulumWalk from "../traits/PendulumWalk.js";
+
+
+export var loadGoomba = () => {
+    return loadSpriteSheet('goomba')
+        .then(createGoombaFactory);
+};
+
+var createGoombaFactory = (sprite) => {
+    const walkAnimation = sprite.animations.get('walk');
+
+    function drawGoomba(context) {
+        sprite.draw(walkAnimation(this.lifetime), context, 0, 0);
+    }
+
+    return function createGoomba() {
+        const goomba = new Entity();
+        goomba.size.set(16, 16);
+        goomba.addTrait(new PendulumWalk());
+
+        goomba.draw = drawGoomba;
+        return goomba;
+    };
+};

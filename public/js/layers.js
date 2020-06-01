@@ -70,7 +70,7 @@ export var createCollisionLayer = (level) => {
         context.strokeStyle = '#800000';
         level.entities.forEach(entity => {
             context.beginPath();
-            context.rect(entity.pos.x - camera.pos.x, entity.pos.y - camera.pos.y, entity.size.x, entity.size.y);
+            context.rect(entity.bounds.left - camera.pos.x, entity.bounds.top - camera.pos.y, entity.size.x, entity.size.y);
             context.stroke();
         });
         resolvedTiles.length = 0;
