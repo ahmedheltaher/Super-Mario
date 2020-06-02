@@ -10,7 +10,7 @@ export default class Killable extends Trait {
         this.removeAfter = 2;
     }
     kill() {
-        this.dead = true;
+        this.queue(() => this.dead = true);
     }
     revive() {
         this.dead = false;
@@ -20,7 +20,9 @@ export default class Killable extends Trait {
         if (this.dead) {
             this.deadTime += deltaTime;
             if (this.deadTime > this.removeAfter) {
-                level.entities.delete(entity);
+                this.queue(() => {
+                    level.entities.delete(entity);
+                });
             }
         }
     }

@@ -1,0 +1,11 @@
+body {
+   background: #000; 
+   margin: 0;
+}
+
+#screen {
+    display: block;
+    image-rendering: pixelated;
+    height: 100vh;
+    margin: auto;
+}
