@@ -1,5 +1,5 @@
 {
-    "imageURL": "/images/character.png",
+    "imageURL": "/images/characters.gif",
     "frames": [
         {
             "name": "walk-1",
@@ -23,7 +23,7 @@
             "name": "flat",
             "rect": [
                 277,
-                43,
+                187,
                 16,
                 16
             ]
