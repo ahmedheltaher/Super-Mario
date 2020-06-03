@@ -14,8 +14,13 @@ import {
 
 import {
     createCollisionLayer
-} from "./layers.js";
-
+} from "./layers/collision.js";
+import {
+    loadFont
+} from './loaders/font.js';
+import {
+    createDashboardLayer
+} from './layers/dashboard.js';
 
 const createPlaterEnvironment = (PlayerEntity) => {
     const playerEnvironment = new Entity();
@@ -28,17 +33,23 @@ const createPlaterEnvironment = (PlayerEntity) => {
 
 const main = async (canvas) => {
     const context = canvas.getContext('2d');
-    const entityFactory = await loadEntities();
+    const [entityFactory, font] = await Promise.all([
+        loadEntities(), loadFont()
+    ]);
     const loadLevel = await createLevelLoader(entityFactory);
     const level = await loadLevel('1-1');
 
     const camera = new Camera();
-    level.compositor.newLayer(createCollisionLayer(level));
-
     const mario = entityFactory.mario();
+
     const playerEnvironment = createPlaterEnvironment(mario);
     level.newEntity(playerEnvironment);
     
+    level.compositor.newLayer(createCollisionLayer(level));
+    level.compositor.newLayer(createDashboardLayer(font, playerEnvironment));
+
+
+
     const inputs = setupKeyboard(mario);
     inputs.listenTo(window);
 

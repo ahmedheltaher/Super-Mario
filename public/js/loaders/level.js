@@ -2,11 +2,10 @@ import {
     Matrix
 } from '../math.js';
 import Level from '../Level.js';
+import { createSpriteLayer } from "../layers/sprites.js";
 import {
-    createBackgroundLayer,
-    createSpriteLayer
-} from '../layers.js';
-
+    createBackgroundLayer
+} from "../layers/background.js";
 import {
     loadJSON,
     loadSpriteSheet
