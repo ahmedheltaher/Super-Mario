@@ -33,9 +33,12 @@ const createPlaterEnvironment = (PlayerEntity) => {
 
 const main = async (canvas) => {
     const context = canvas.getContext('2d');
+    const audioContext = new AudioContext();
+
     const [entityFactory, font] = await Promise.all([
-        loadEntities(), loadFont()
+        loadEntities(audioContext), loadFont()
     ]);
+
     const loadLevel = await createLevelLoader(entityFactory);
     const level = await loadLevel('1-1');
 
@@ -44,18 +47,20 @@ const main = async (canvas) => {
 
     const playerEnvironment = createPlaterEnvironment(mario);
     level.newEntity(playerEnvironment);
-    
+
     level.compositor.newLayer(createCollisionLayer(level));
     level.compositor.newLayer(createDashboardLayer(font, playerEnvironment));
 
-
-
     const inputs = setupKeyboard(mario);
     inputs.listenTo(window);
-
+    const gameContext = {
+        audioContext,
+        deltaTime: null
+    };
     const timer = new Timer();
     timer.update = function update(deltaTime) {
-        level.update(deltaTime);
+        gameContext.deltaTime = deltaTime;
+        level.update(gameContext);
         camera.pos.x = Math.max(0, mario.pos.x - 100);
         level.compositor.draw(context, camera);
     };
@@ -63,4 +68,8 @@ const main = async (canvas) => {
 };
 
 const canvas = document.getElementById('screen');
-main(canvas);
+const start = () => {
+    window.removeEventListener('click', start);
+    main(canvas);
+};
+window.addEventListener('click', start);

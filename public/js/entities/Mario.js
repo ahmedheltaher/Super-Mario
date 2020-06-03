@@ -8,18 +8,26 @@ import {
 import Killable from '../traits/Killable.js';
 import Solid from '../traits/Solid.js';
 import Physics from '../traits/Physics.js';
+import {
+    loadAudioBoard
+} from '../loaders/audio.js';
 
 const RESISTANCE_FORCES = {
     LOW: 1 / 1000,
     HIGH: 1 / 5000
 };
 
-export var loadMario = () => {
-    return loadSpriteSheet('mario')
-        .then(createMarioFactory);
+export var loadMario = (audioContext) => {
+    return Promise.all([
+        loadSpriteSheet('mario'),
+        loadAudioBoard('mario', audioContext)
+    ]).then(([sprite, audioBoard]) => {
+        return createMarioFactory(sprite, audioBoard);
+    });
+    
 };
 
-var createMarioFactory = (sprite) => {
+var createMarioFactory = (sprite, audioBoard) => {
     const runAnimation = sprite.animations.get('run');
 
     var routeFrame = (mario) => {
@@ -44,6 +52,7 @@ var createMarioFactory = (sprite) => {
     }
     return function createMario() {
         const mario = new Entity();
+        mario.audio = audioBoard;
         mario.size.set(14, 16);
         mario.addTrait(new Solid());
         mario.addTrait(new Physics());

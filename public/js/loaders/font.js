@@ -24,7 +24,6 @@ export const loadFont = () =>  {
         for (let [index, char] of [...CHARS].entries()) {
             const x = index * size % rowLength;
             const y = Math.floor(index * size / rowLength) * size;
-            console.log(index, char, x, y);
             fontSprite.register(char, x, y, size, size);
         }
         return new Font(fontSprite, size);

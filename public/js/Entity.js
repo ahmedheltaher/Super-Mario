@@ -2,6 +2,7 @@ import {
     Vector2
 } from "./math.js";
 import BoundingBox from './BoundingBox.js';
+import AudioBoard from "./AudioBoard.js";
 
 export const SIDES = {
     TOP: Symbol('top'),
@@ -13,6 +14,7 @@ export class Trait {
     constructor(name) {
         this.NAME = name;
         this.tasks = [];
+        this.sounds = new Set();
     }
     finalize() {
         this.tasks.forEach(task => task());
@@ -23,19 +25,24 @@ export class Trait {
     }
     collides(us, them) {}
     obstruct() {}
+    playSounds(audioBoard, audioContext) {
+        this.sounds.forEach(name => {
+            audioBoard.playAudio(name, audioContext);
+        });
+        this.sounds.clear();
+    }
     update() {}
 }
 
 export default class Entity {
     constructor() {
-        this.canCollide = true;
+        this.audio = new AudioBoard();
         this.pos = new Vector2(0, 0);
         this.vel = new Vector2(0, 0);
         this.size = new Vector2(0, 0);
         this.offset = new Vector2(0, 0);
         this.bounds = new BoundingBox(this.pos, this.size, this.offset);
         this.lifetime = 0;
-
         this.traits = [];
     }
     addTrait(trait) {
@@ -58,10 +65,11 @@ export default class Entity {
             trait.finalize();
         });
     }
-    update(deltaTime, level) {
+    update(gameContext, level) {
         this.traits.forEach(trait => {
-            trait.update(this, deltaTime, level);
+            trait.update(this, gameContext, level);
+            trait.playSounds(this.audio, gameContext.audioContext);
         });
-        this.lifetime += deltaTime;
+        this.lifetime += gameContext.deltaTime;
     }
 }

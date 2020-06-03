@@ -9,16 +9,16 @@ import {
 } from './entities/Koopa.js';
 
 
-export function loadEntities() {
+export function loadEntities(audioContext) {
     const entityFactories = {};
 
     function addAs(name) {
         return factory => entityFactories[name] = factory;
     }
     return Promise.all([
-            loadMario().then(addAs('mario')),
-            loadGoomba().then(addAs('goomba')),
-            loadKoopa().then(addAs('koopa')),
+            loadMario(audioContext).then(addAs('mario')),
+            loadGoomba(audioContext).then(addAs('goomba')),
+            loadKoopa(audioContext).then(addAs('koopa')),
         ])
         .then(() => entityFactories);
 }
