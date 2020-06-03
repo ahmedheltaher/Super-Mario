@@ -3,6 +3,7 @@ import {
 } from "./math.js";
 import BoundingBox from './BoundingBox.js';
 import AudioBoard from "./AudioBoard.js";
+import EventEmitter from "./EventEmitter.js";
 
 export const SIDES = {
     TOP: Symbol('top'),
@@ -15,6 +16,7 @@ export class Trait {
         this.NAME = name;
         this.tasks = [];
         this.sounds = new Set();
+        this.events = new EventEmitter();
     }
     finalize() {
         this.tasks.forEach(task => task());
