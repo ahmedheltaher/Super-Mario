@@ -32,6 +32,9 @@ export class Vector2 {
         this.x = x;
         this.y = y;
     }
+    copy(vector) {
+        this.set(vector.x, vector.y);
+    }
     get() {
         return;
     }

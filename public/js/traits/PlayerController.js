@@ -1,7 +1,9 @@
 import {
     Trait
 } from '../Entity.js';
-import { Vector2 } from '../math.js';
+import {
+    Vector2
+} from '../math.js';
 
 export default class PlayerController extends Trait {
     constructor() {
@@ -17,7 +19,9 @@ export default class PlayerController extends Trait {
             this.score += 100;
         });
     }
-    update(entity, {deltaTime}, level) {
+    update(entity, {
+        deltaTime
+    }, level) {
         if (!level.entities.has(this.player)) {
             this.player.killable.revive();
             this.player.pos.set(this.checkpoint.x, this.checkpoint.y);

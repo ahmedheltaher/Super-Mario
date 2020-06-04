@@ -1,6 +1,4 @@
 import Camera from './Camera.js';
-import PlayerController from './traits/PlayerController.js';
-import Entity from './Entity.js';
 import Timer from './Timer.js';
 import {
     createLevelLoader
@@ -21,15 +19,7 @@ import {
 import {
     createDashboardLayer
 } from './layers/dashboard.js';
-
-const createPlaterEnvironment = (PlayerEntity) => {
-    const playerEnvironment = new Entity();
-    const playerControl = new PlayerController();
-    playerControl.checkpoint.set(64, 64);
-    playerControl.setPlayer(PlayerEntity);
-    playerEnvironment.addTrait(playerControl);
-    return playerEnvironment;
-};
+import { createPlayerEnvironment, createPlayer } from './player.js';
 
 const main = async (canvas) => {
     const context = canvas.getContext('2d');
@@ -43,9 +33,9 @@ const main = async (canvas) => {
     const level = await loadLevel('1-1');
 
     const camera = new Camera();
-    const mario = entityFactory.mario();
-
-    const playerEnvironment = createPlaterEnvironment(mario);
+    const mario = createPlayer(entityFactory.mario());
+    
+    const playerEnvironment = createPlayerEnvironment(mario);
     level.newEntity(playerEnvironment);
 
     level.compositor.newLayer(createCollisionLayer(level));

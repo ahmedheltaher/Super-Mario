@@ -1,4 +1,6 @@
-import { loadImage } from "../loaders.js";
+import {
+    loadImage
+} from "../loaders.js";
 import SpriteSheet from "../SpriteSheet.js";
 
 const CHARS = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
@@ -15,17 +17,17 @@ class Font {
     }
 }
 
-export const loadFont = () =>  {
+export const loadFont = () => {
     return loadImage('./images/font.png')
-    .then(image => {
-        const fontSprite = new SpriteSheet(image);
-        const size = 8;
-        const rowLength = image.width;
-        for (let [index, char] of [...CHARS].entries()) {
-            const x = index * size % rowLength;
-            const y = Math.floor(index * size / rowLength) * size;
-            fontSprite.register(char, x, y, size, size);
-        }
-        return new Font(fontSprite, size);
-    });
+        .then(image => {
+            const fontSprite = new SpriteSheet(image);
+            const size = 8;
+            const rowLength = image.width;
+            for (const [index, char] of [...CHARS].entries()) {
+                const x = index * size % rowLength;
+                const y = Math.floor(index * size / rowLength) * size;
+                fontSprite.register(char, x, y, size, size);
+            }
+            return new Font(fontSprite, size);
+        });
 };

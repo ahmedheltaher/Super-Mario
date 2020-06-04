@@ -2,7 +2,9 @@ import {
     Matrix
 } from '../math.js';
 import Level from '../Level.js';
-import { createSpriteLayer } from "../layers/sprites.js";
+import {
+    createSpriteLayer
+} from "../layers/sprites.js";
 import {
     createBackgroundLayer
 } from "../layers/background.js";

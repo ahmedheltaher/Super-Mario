@@ -4,7 +4,10 @@ export const createDashboardLayer = (font, playerEnvironment) => {
     const coins = 30;
 
     return function drawDashboard(context) {
-        const {score, time} = playerEnvironment.playerController;
+        const {
+            score,
+            time
+        } = playerEnvironment.playerController;
 
         font.print('MARIO', context, 16, LINE1);
         font.print(score.toString().padStart(6, '0'), context, 16, LINE2);

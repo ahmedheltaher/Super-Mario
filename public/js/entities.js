@@ -7,6 +7,8 @@ import {
 import {
     loadKoopa
 } from './entities/Koopa.js';
+import { loadBullet } from './entities/BulletBill.js';
+import { loadCannon } from './entities/Cannon.js';
 
 
 export function loadEntities(audioContext) {
@@ -19,6 +21,9 @@ export function loadEntities(audioContext) {
             loadMario(audioContext).then(addAs('mario')),
             loadGoomba(audioContext).then(addAs('goomba')),
             loadKoopa(audioContext).then(addAs('koopa')),
+            loadBullet(audioContext).then(addAs('bullet')),
+            loadCannon(audioContext, entityFactories).then(addAs('cannon')),
+
         ])
         .then(() => entityFactories);
 }

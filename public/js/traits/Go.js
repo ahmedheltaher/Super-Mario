@@ -12,7 +12,9 @@ export default class Go extends Trait {
         this.deceleration = 300;
         this.resistanceForce = 1 / 5000;
     }
-    update(entity, {deltaTime}) {
+    update(entity, {
+        deltaTime
+    }) {
         const absX = Math.abs(entity.vel.x);
 
         if (this.direction !== 0) {

@@ -119,7 +119,7 @@ var createKoopaFactory = (sprite) => {
         const koopa = new Entity();
         koopa.size.set(16, 16);
         koopa.offset.y = 8;
-        
+
         koopa.addTrait(new Solid());
         koopa.addTrait(new Physics());
         koopa.addTrait(new PendulumMove());

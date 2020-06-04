@@ -24,7 +24,7 @@ export var loadMario = (audioContext) => {
     ]).then(([sprite, audioBoard]) => {
         return createMarioFactory(sprite, audioBoard);
     });
-    
+
 };
 
 var createMarioFactory = (sprite, audioBoard) => {
