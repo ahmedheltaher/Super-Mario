@@ -13,20 +13,13 @@ import {
     loadSpriteSheet
 } from "../loaders.js";
 
-const setupCollision = (levelSpec, level) => {
-    const mergedTiles = levelSpec.layers.reduce((mergedTiles, layerSpec) => {
-        return mergedTiles.concat(layerSpec.tiles);
-    }, []);
-    const collisionGrid = createCollisionGrid(mergedTiles, levelSpec.patterns);
-    level.setCollisionGird(collisionGrid);
-};
-
 
 const setupBackgrounds = (levelSpec, level, backgroundSprites) => {
     levelSpec.layers.forEach(layer => {
-        const backgroundGrid = createBackgroundGrid(layer.tiles, levelSpec.patterns);
-        const backgroundLayer = createBackgroundLayer(level, backgroundGrid, backgroundSprites);
+        const grid = createGrid(layer.tiles, levelSpec.patterns);
+        const backgroundLayer = createBackgroundLayer(level, grid, backgroundSprites);
         level.compositor.newLayer(backgroundLayer);
+        level.tileCollider.addGrid(grid);
     });
 };
 
@@ -52,7 +45,6 @@ export const createLevelLoader = (entityFactory) => {
             .then(([levelSpec, backgroundSprites]) => {
                 const level = new Level();
 
-                setupCollision(levelSpec, level);
                 setupBackgrounds(levelSpec, level, backgroundSprites);
                 setupEntities(levelSpec, level, entityFactory);
 
@@ -62,30 +54,14 @@ export const createLevelLoader = (entityFactory) => {
 };
 
 
-const createCollisionGrid = (tiles, patterns) => {
+const createGrid = (tiles, patterns) => {
     const grid = new Matrix();
     for (const {
             tile,
             x,
             y
         } of expandTiles(tiles, patterns)) {
-        grid.set(x, y, {
-            type: tile.type
-        });
-    }
-    return grid;
-};
-
-const createBackgroundGrid = (tiles, patterns) => {
-    const grid = new Matrix();
-    for (const {
-            tile,
-            x,
-            y
-        } of expandTiles(tiles, patterns)) {
-        grid.set(x, y, {
-            name: tile.name
-        });
+        grid.set(x, y, tile);
     }
     return grid;
 };

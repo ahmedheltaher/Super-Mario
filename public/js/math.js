@@ -15,6 +15,12 @@ export class Matrix {
         }
         this.grid[x][y] = value;
     }
+    delete(x, y) {
+        const column = this.grid[x];
+        if (column) {
+            delete column[y];
+        }
+    }
     get(x, y) {
         const column = this.grid[x];
         if (column) {

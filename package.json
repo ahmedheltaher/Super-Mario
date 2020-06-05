@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/EpicCoder2002/Super-Mario#readme",
   "dependencies": {
-    "serve": "^11.3.1"
+    "serve": "^11.3.2"
   }
 }

@@ -10,10 +10,9 @@ export default class Level {
         this.entities = new Set();
         this.tileCollider = null;
         this.entityCollider = new EntityCollider(this.entities);
+        this.tileCollider = new TileCollider();
     }
-    setCollisionGird(matrix) {
-        this.tileCollider = new TileCollider(matrix);
-    }
+
     newEntity(entity) {
         this.entities.add(entity);
     }

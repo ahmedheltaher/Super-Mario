@@ -25,6 +25,8 @@ export default class TileResolver {
             const x2 = x1 + this.tileSize;
             return {
                 tile,
+                indexX,
+                indexY,
                 y1,
                 y2,
                 x1,

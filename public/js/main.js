@@ -44,6 +44,7 @@ const main = async (canvas) => {
     const inputs = setupKeyboard(mario);
     inputs.listenTo(window);
     const gameContext = {
+        entityFactory,
         audioContext,
         deltaTime: null
     };

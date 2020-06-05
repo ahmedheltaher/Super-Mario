@@ -5,23 +5,23 @@ const USED_KEYS = {
     RIGHT: 'KeyD',
     LEFT: 'KeyA'
 };
-export var setupKeyboard = (mario) => {
+export var setupKeyboard = (player) => {
     const inputs = new keyboardState();
     inputs.addMapping(USED_KEYS.JUMP, keyState => {
         if (keyState) {
-            mario.jump.start();
+            player.jump.start();
         } else {
-            mario.jump.cancel();
+            player.jump.cancel();
         }
     });
     inputs.addMapping(USED_KEYS.RUN, keyState => {
-        mario.turbo(keyState);
+        player.turbo(keyState);
     });
     inputs.addMapping(USED_KEYS.RIGHT, keyState => {
-        mario.go.direction += keyState ? 1 : -1;
+        player.go.direction += keyState ? 1 : -1;
     });
     inputs.addMapping(USED_KEYS.LEFT, keyState => {
-        mario.go.direction += keyState ? -1 : 1;
+        player.go.direction += keyState ? -1 : 1;
     });
     return inputs;
 };
