@@ -3,7 +3,7 @@ import Entity, {
 } from '../Entity.js';
 import {
     loadSpriteSheet
-} from '../loaders.js';
+} from "../loaders/sprite.js";
 import Killable from '../traits/Killable.js';
 import Velocity from '../traits/Velocity.js';
 import Gravity from '../traits/Gravity.js';

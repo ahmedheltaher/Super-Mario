@@ -56,6 +56,7 @@ const main = async (canvas) => {
         level.compositor.draw(context, camera);
     };
     timer.start();
+    level.music.player.playTrack('main');
 };
 
 const canvas = document.getElementById('screen');
