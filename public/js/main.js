@@ -33,7 +33,7 @@ const main = async (canvas) => {
     ]);
 
     const loadLevel = await createLevelLoader(entityFactory);
-    const level = await loadLevel('1-1');
+    const level = await loadLevel('debug-coin');
 
     const camera = new Camera();
     const mario = createPlayer(entityFactory.mario());

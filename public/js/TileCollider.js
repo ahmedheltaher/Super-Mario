@@ -5,9 +5,13 @@ import {
 import {
     brick
 } from './tiles/brick.js';
+import {
+    coin
+} from './tiles/coin.js';
 const HANDLERS = {
-    ground,
-    brick
+    brick,
+    coin,
+    ground
 };
 export default class TileCollider {
     constructor() {
@@ -32,7 +36,7 @@ export default class TileCollider {
                 x, x,
                 entity.bounds.top, entity.bounds.bottom);
 
-            matches.forEach(match => {
+            matches.forEach(match => { // jshint ignore:line
                 this.handle(0, entity, match, resolver, gameContext, level);
             });
         }
@@ -54,13 +58,19 @@ export default class TileCollider {
                 entity.bounds.left, entity.bounds.right,
                 y, y);
 
-            matches.forEach(match => {
+            matches.forEach(match => { // jshint ignore:line
                 this.handle(1, entity, match, resolver, gameContext, level);
             });
         }
     }
     handle(index, entity, match, resolver, gameContext, level) {
-        const tileCollisionContext = {entity, match, resolver, gameContext, level};
+        const tileCollisionContext = {
+            entity,
+            match,
+            resolver,
+            gameContext,
+            level
+        };
         const handlers = HANDLERS[match.tile.type];
         if (handlers) {
             handlers[index](tileCollisionContext);

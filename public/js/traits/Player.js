@@ -3,6 +3,8 @@ import {
 } from '../Entity.js';
 import Stomper from './Stomper.js';
 
+const COIN_LIFE_THRESHOLD = 100;
+
 export default class Player extends Trait {
     constructor() {
         super('player');
@@ -14,5 +16,17 @@ export default class Player extends Trait {
         this.listen(Stomper.EVENT_STOMP, () => {
             this.score += 100;
         });
+    }
+    addCoins(count = 1) {
+        this.coins += count;
+        this.queue(entity => entity.sounds.add('coin'));
+        if (this.coins >= COIN_LIFE_THRESHOLD) {
+            const lifeCounts = Math.floor(this.coins / COIN_LIFE_THRESHOLD);
+            this.addLives(lifeCounts);
+            this.coins = this.coins % COIN_LIFE_THRESHOLD;
+        }
+    }
+    addLives(count = 1) {
+        this.lives += count;
     }
 }

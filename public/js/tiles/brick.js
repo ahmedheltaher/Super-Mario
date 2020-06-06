@@ -2,7 +2,13 @@ import {
     SIDES
 } from '../Entity.js';
 
-function handleX({entity, match, resolver, gameContext, level}) {
+function handleX({
+    entity,
+    match,
+    resolver,
+    gameContext,
+    level
+}) {
     if (entity.vel.x > 0) {
         if (entity.bounds.right > match.x1) {
             entity.obstruct(SIDES.RIGHT, match);
@@ -14,7 +20,13 @@ function handleX({entity, match, resolver, gameContext, level}) {
     }
 }
 
-function handleY({entity, match, resolver, gameContext, level}) {
+function handleY({
+    entity,
+    match,
+    resolver,
+    gameContext,
+    level
+}) {
     if (entity.vel.y > 0) {
         if (entity.bounds.bottom > match.y1) {
 
