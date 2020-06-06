@@ -37,12 +37,14 @@ const main = async (canvas) => {
 
     const camera = new Camera();
     const mario = createPlayer(entityFactory.mario());
+    mario.player.name = 'MARIO';
+    level.newEntity(mario);
 
     const playerEnvironment = createPlayerEnvironment(mario);
     level.newEntity(playerEnvironment);
 
     level.compositor.newLayer(createCollisionLayer(level));
-    level.compositor.newLayer(createDashboardLayer(font, playerEnvironment));
+    level.compositor.newLayer(createDashboardLayer(font, level));
 
     const inputs = setupKeyboard(mario);
     inputs.listenTo(window);

@@ -2,6 +2,8 @@ import {
     Matrix
 } from '../math.js';
 import Level from '../Level.js';
+import Entity from '../Entity.js';
+import LevelTimer from '../traits/LevelTimer.js';
 import {
     createSpriteLayer
 } from "../layers/sprites.js";
@@ -17,6 +19,24 @@ import {
 import {
     loadMusicSheet
 } from './music.js';
+
+const createTimer = () => {
+    const timer = new Entity();
+    timer.addTrait(new LevelTimer());
+    return timer;
+};
+
+const setupBehavior = (level) => {
+    const timer = createTimer();
+    level.newEntity(timer);
+
+    level.events.listen(LevelTimer.EVENT_TIME_NORMAL, () => {
+        level.music.playTheme();
+    });
+    level.events.listen(LevelTimer.EVENT_TIME_HURRY, () => {
+        level.music.playHurryTheme();
+    });
+};
 
 const setupBackgrounds = (levelSpec, level, backgroundSprites) => {
     levelSpec.layers.forEach(layer => {
@@ -52,6 +72,7 @@ export const createLevelLoader = (entityFactory) => {
                 level.music.setPlayer(musicPlayer);
                 setupBackgrounds(levelSpec, level, backgroundSprites);
                 setupEntities(levelSpec, level, entityFactory);
+                setupBehavior(level);
 
                 return level;
             });
