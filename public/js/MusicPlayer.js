@@ -9,7 +9,7 @@ export default class MusicPlayer {
         this.tracks.set(name, audio);
     }
     playTrack(name) {
-        const audio =  this.tracks.get(name);
+        const audio = this.tracks.get(name);
         audio.play();
     }
 }

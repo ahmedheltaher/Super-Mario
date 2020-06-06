@@ -84,7 +84,8 @@ class Behavior extends Trait {
         us.pendulumMove.speed = this.panicSpeed * Math.sign(them.vel.x);
         this.state = STATES.PANIC;
     }
-    update(us, deltaTime) {
+    update(us, gameContext) {
+        const {deltaTime} = gameContext;
         if (this.state === STATES.HIDING) {
             this.hideTime += deltaTime;
             if (this.hideTime > this.hideDuration) {

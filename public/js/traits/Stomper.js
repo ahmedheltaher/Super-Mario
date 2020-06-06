@@ -3,6 +3,7 @@ import {
 } from '../Entity.js';
 
 export default class Stomper extends Trait {
+    static EVENT_STOMP = Symbol('stomp'); // jshint ignore:line
     constructor() {
         super('stomper');
         this.bounceSpeed = 400;
@@ -18,7 +19,7 @@ export default class Stomper extends Trait {
         if (us.vel.y > them.vel.y) {
             this.queue(() => this.bounce(us, them));
             us.sounds.add('stomp');
-            this.events.emit('stomp', us, them);
+            us.events.emit(Stomper.EVENT_STOMP, us, them);
         }
     }
 }

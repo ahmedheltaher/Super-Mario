@@ -19,7 +19,10 @@ import {
 import {
     createDashboardLayer
 } from './layers/dashboard.js';
-import { createPlayerEnvironment, createPlayer } from './player.js';
+import {
+    createPlayerEnvironment,
+    createPlayer
+} from './player.js';
 
 const main = async (canvas) => {
     const context = canvas.getContext('2d');
@@ -34,7 +37,7 @@ const main = async (canvas) => {
 
     const camera = new Camera();
     const mario = createPlayer(entityFactory.mario());
-    
+
     const playerEnvironment = createPlayerEnvironment(mario);
     level.newEntity(playerEnvironment);
 
