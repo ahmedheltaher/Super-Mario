@@ -1,6 +1,6 @@
 {
-    "spriteSheet": "overworld",
-    "musicSheet": "silent",
+    "spriteSheet": "underworld",
+    "musicSheet": "underworld",
     "patternSheet": "overworld-pattern",
     "layers": [
         {
@@ -29,24 +29,17 @@
                     ]
                 }
             ]
-        },
-        {
-            "tiles": [
-                {
-                    "name": "coin",
-                    "type": "coin",
-                    "ranges": [
-                        [
-                            6,
-                            100,
-                            8,
-                            5
-                        ]
-                    ]
-                }
-            ]
         }
     ],
     "entities": [],
-    "triggers": []
+    "triggers": [
+        {
+            "type": "goto",
+            "name": "1-1",
+            "pos": [
+                64,
+                64
+            ]
+        }
+    ]
 }

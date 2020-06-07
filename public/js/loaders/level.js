@@ -19,12 +19,20 @@ import {
 import {
     loadMusicSheet
 } from './music.js';
+import Trigger from '../traits/Trigger.js';
 
 const createTimer = () => {
     const timer = new Entity();
     timer.addTrait(new LevelTimer());
     return timer;
 };
+
+const createTrigger = () => {
+    const trigger = new Entity();
+    trigger.addTrait(new Trigger());
+    return trigger;
+};
+
 
 const setupBehavior = (level) => {
     const timer = createTimer();
@@ -38,13 +46,32 @@ const setupBehavior = (level) => {
     });
 };
 
-const setupBackgrounds = (levelSpec, level, backgroundSprites) => {
+const loadPattern = (name) => {
+    return loadJSON(`/sprites/patterns/${name}.json`);
+};
+
+const setupBackgrounds = (levelSpec, level, backgroundSprites, patterns) => {
     levelSpec.layers.forEach(layer => {
-        const grid = createGrid(layer.tiles, levelSpec.patterns);
+        const grid = createGrid(layer.tiles, patterns);
         const backgroundLayer = createBackgroundLayer(level, grid, backgroundSprites);
         level.compositor.newLayer(backgroundLayer);
         level.tileCollider.addGrid(grid);
     });
+};
+
+const setupTriggers = (levelSpec, level) => {
+    if (!levelSpec.triggers) {
+        return;
+    }
+    for (const triggerSpec of levelSpec.triggers) {
+        const entity = createTrigger();
+        entity.trigger.conditions.push((entity, touches, gc, level) => { // jshint ignore: line
+            level.events.emit(Level.EVENT_TRIGGER, triggerSpec, entity, touches);
+        });
+        entity.size.set(64, 64);
+        entity.pos.set(triggerSpec.pos[0], triggerSpec.pos[1]);
+        level.newEntity(entity);
+    }
 };
 
 const setupEntities = (levelSpec, level, entityFactory) => {
@@ -65,13 +92,16 @@ export const createLevelLoader = (entityFactory) => {
             .then(levelSpec => Promise.all([
                 levelSpec,
                 loadSpriteSheet(levelSpec.spriteSheet),
+                loadPattern(levelSpec.patternSheet),
                 loadMusicSheet(levelSpec.musicSheet)
             ]))
-            .then(([levelSpec, backgroundSprites, musicPlayer]) => {
+            .then(([levelSpec, backgroundSprites, patterns, musicPlayer]) => {
                 const level = new Level();
+                level.setLevelName(name);
                 level.music.setPlayer(musicPlayer);
-                setupBackgrounds(levelSpec, level, backgroundSprites);
+                setupBackgrounds(levelSpec, level, backgroundSprites, patterns);
                 setupEntities(levelSpec, level, entityFactory);
+                setupTriggers(levelSpec, level);
                 setupBehavior(level);
 
                 return level;
