@@ -1,11 +1,11 @@
 import {
-    Trait,
     SIDES
 } from '../Entity.js';
+import Trait from "../Trait.js";
 
 export default class Jump extends Trait {
     constructor() {
-        super('jump');
+        super();
         this.ready = 0;
         this.duration = 0.3;
         this.velocity = 200;

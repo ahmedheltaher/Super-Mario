@@ -10,7 +10,7 @@ export const createBackgroundLayer = (level, tiles, sprites) => {
         for (let x = startIndex; x <= endIndex; x++) {
             const column = tiles.grid[x];
             if (column) {
-                column.forEach((tile, y) => {
+                column.forEach((tile, y) => { // jshint ignore: line
                     if (sprites.animations.has(tile.name)) {
                         sprites.drawAnimation(tile.name, context, x - startIndex, y, level.totalTime);
                     } else {
@@ -25,6 +25,6 @@ export const createBackgroundLayer = (level, tiles, sprites) => {
         const drawFrom = resolver.toIndex(camera.pos.x);
         const drawTo = drawFrom + drawWidth;
         redraw(drawFrom, drawTo);
-        context.drawImage(buffer, -camera.pos.x % 16, -camera.pos.y);
+        context.drawImage(buffer, Math.floor(-camera.pos.x % 16), Math.floor(-camera.pos.y));
     };
 };

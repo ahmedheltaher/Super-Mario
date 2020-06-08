@@ -1,6 +1,4 @@
-import {
-    Vector2
-} from "./math.js";
+import Vector2 from "./math/Vector.js";
 
 export default class Camera {
     constructor() {

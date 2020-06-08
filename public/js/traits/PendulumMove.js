@@ -1,14 +1,13 @@
 import {
-    Trait,
     SIDES
 } from '../Entity.js';
+import Trait from "../Trait.js";
 
 export default class PendulumMove extends Trait {
     constructor() {
-        super('pendulumMove');
+        super();
         this.enabled = true;
         this.speed = -30;
-
     }
     obstruct(entity, side) {
         if (side === SIDES.LEFT || side === SIDES.RIGHT) {

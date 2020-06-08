@@ -1,6 +1,7 @@
 import {
     SIDES
 } from '../Entity.js';
+import Player from '../traits/Player.js';
 
 function handleX({
     entity,
@@ -33,7 +34,7 @@ function handleY({
             entity.obstruct(SIDES.BOTTOM, match);
         }
     } else if (entity.vel.y < 0) {
-        if (entity.player) {
+        if (entity.traits.has(Player)) {
             const grid = resolver.matrix;
             grid.delete(match.indexX, match.indexY);
             const goomba = gameContext.entityFactory.goomba();

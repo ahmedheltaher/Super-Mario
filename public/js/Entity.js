@@ -1,9 +1,8 @@
-import {
-    Vector2
-} from "./math.js";
+import Vector2 from "./math/Vector.js";
 import BoundingBox from './BoundingBox.js';
 import AudioBoard from "./AudioBoard.js";
 import EventBuffer from "./EventBuffer.js";
+import Trait from "./Trait.js";
 
 export const SIDES = {
     TOP: Symbol('top'),
@@ -11,34 +10,6 @@ export const SIDES = {
     LEFT: Symbol('left'),
     RIGHT: Symbol('right')
 };
-export class Trait {
-    static EVENT_TASK = Symbol('task'); // jshint ignore:line
-    constructor(name) {
-        this.NAME = name;
-        this.listeners = [];
-    }
-    listen(name, callback, count = Infinity) {
-        const listener = {
-            name,
-            callback,
-            count
-        };
-        this.listeners.push(listener);
-    }
-    finalize(entity) {
-        this.listeners = this.listeners.filter(listener => {
-            entity.events.process(listener.name, listener.callback);
-            return --listener.count;
-        });
-    }
-    queue(task) {
-        this.listen(Trait.EVENT_TASK, task, 1);
-    }
-    collides(us, them) {}
-    obstruct() {}
-    update() {}
-}
-
 export default class Entity {
     constructor() {
         this.audio = new AudioBoard();
@@ -50,11 +21,10 @@ export default class Entity {
         this.offset = new Vector2(0, 0);
         this.bounds = new BoundingBox(this.pos, this.size, this.offset);
         this.lifetime = 0;
-        this.traits = [];
+        this.traits = new Map();
     }
     addTrait(trait) {
-        this.traits.push(trait);
-        this[trait.NAME] = trait;
+        this.traits.set(trait.constructor, trait);
     }
     obstruct(side, match) {
         this.traits.forEach(trait => {

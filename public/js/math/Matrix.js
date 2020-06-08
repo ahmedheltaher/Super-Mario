@@ -1,4 +1,4 @@
-export class Matrix {
+export default class Matrix {
     constructor() {
         this.grid = [];
     }
@@ -27,21 +27,5 @@ export class Matrix {
             return column[y];
         }
         return undefined;
-    }
-}
-
-export class Vector2 {
-    constructor(x, y) {
-        this.set(x, y);
-    }
-    set(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-    copy(vector) {
-        this.set(vector.x, vector.y);
-    }
-    get() {
-        return;
     }
 }

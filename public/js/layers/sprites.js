@@ -7,7 +7,7 @@ export const createSpriteLayer = (entities, width = 64, height = 64) => {
         entities.forEach(entity => {
             spriteBufferContext.clearRect(0, 0, width, height);
             entity.draw(spriteBufferContext);
-            context.drawImage(spriteBuffer, entity.pos.x - camera.pos.x, entity.pos.y - camera.pos.y);
+            context.drawImage(spriteBuffer, Math.floor(entity.pos.x - camera.pos.x), Math.floor(entity.pos.y - camera.pos.y));
         });
     };
 };

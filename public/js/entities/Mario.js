@@ -31,24 +31,24 @@ var createMarioFactory = (sprite, audioBoard) => {
     const runAnimation = sprite.animations.get('run');
 
     var routeFrame = (mario) => {
-        if (mario.jump.falling) {
+        if (mario.traits.get(Jump).falling) {
             return 'jump';
         }
-        if (mario.go.distance > 0) {
-            if ((mario.vel.x > 0 && mario.go.direction < 0) || (mario.vel.x < 0 && mario.go.direction > 0)) {
+        if (mario.traits.get(Go).distance > 0) {
+            if ((mario.vel.x > 0 && mario.traits.get(Go).direction < 0) || (mario.vel.x < 0 && mario.traits.get(Go).direction > 0)) {
                 return 'break';
             }
-            return runAnimation(mario.go.distance);
+            return runAnimation(mario.traits.get(Go).distance);
         }
         return 'idle';
     };
 
     function setTurboState(turboOn) {
-        this.go.resistanceForce = turboOn ? RESISTANCE_FORCES.HIGH : RESISTANCE_FORCES.LOW;
+        this.traits.get(Go).resistanceForce = turboOn ? RESISTANCE_FORCES.HIGH : RESISTANCE_FORCES.LOW;
     }
 
     function drawMario(context) {
-        sprite.draw(routeFrame(this), context, 0, 0, this.go.heading < 0);
+        sprite.draw(routeFrame(this), context, 0, 0, this.traits.get(Go).heading < 0);
     }
     return function createMario() {
         const mario = new Entity();
@@ -60,7 +60,7 @@ var createMarioFactory = (sprite, audioBoard) => {
         mario.addTrait(new Jump());
         mario.addTrait(new Killable());
         mario.addTrait(new Stomper());
-        mario.killable.removeAfter = 0;
+        mario.traits.get(Killable).removeAfter = 0;
         mario.turbo = setTurboState;
         mario.draw = drawMario;
         mario.turbo(false);

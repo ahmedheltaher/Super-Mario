@@ -11,7 +11,7 @@ import {
 
 
 const focusPlayer = (level) => {
-    for (const player of findPlayers(level)) {
+    for (const player of findPlayers(level.entities)) {
         level.camera.pos.x = Math.max(0, player.pos.x - 100);
     }
 };

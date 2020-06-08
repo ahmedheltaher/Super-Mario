@@ -1,6 +1,4 @@
-import {
-    Matrix
-} from '../math.js';
+import Matrix from '../math/Matrix.js';
 import Level from '../Level.js';
 import Entity from '../Entity.js';
 import LevelTimer from '../traits/LevelTimer.js';
@@ -26,13 +24,6 @@ const createTimer = () => {
     timer.addTrait(new LevelTimer());
     return timer;
 };
-
-const createTrigger = () => {
-    const trigger = new Entity();
-    trigger.addTrait(new Trigger());
-    return trigger;
-};
-
 
 const setupBehavior = (level) => {
     const timer = createTimer();
@@ -63,14 +54,19 @@ const setupTriggers = (levelSpec, level) => {
     if (!levelSpec.triggers) {
         return;
     }
+
     for (const triggerSpec of levelSpec.triggers) {
-        const entity = createTrigger();
-        entity.trigger.conditions.push((entity, touches, gc, level) => { // jshint ignore: line
+        const trigger = new Trigger();
+
+        trigger.conditions.push((entity, touches, gc, level) => { // jshint ignore: line
             level.events.emit(Level.EVENT_TRIGGER, triggerSpec, entity, touches);
         });
+
+        const entity = new Entity();
+        entity.addTrait(trigger);
         entity.size.set(64, 64);
         entity.pos.set(triggerSpec.pos[0], triggerSpec.pos[1]);
-        level.newEntity(entity);
+        level.entities.add(entity);
     }
 };
 

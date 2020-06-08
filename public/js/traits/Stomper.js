@@ -1,11 +1,10 @@
-import {
-    Trait
-} from '../Entity.js';
+import Trait from "../Trait.js";
+import Killable from "./Killable.js";
 
 export default class Stomper extends Trait {
     static EVENT_STOMP = Symbol('stomp'); // jshint ignore:line
     constructor() {
-        super('stomper');
+        super();
         this.bounceSpeed = 400;
     }
     bounce(us, them) {
@@ -13,7 +12,7 @@ export default class Stomper extends Trait {
         us.vel.y = -this.bounceSpeed;
     }
     collides(us, them) {
-        if (!them.killable || them.killable.dead) {
+        if (!them.traits.has(Killable) || them.traits.get(Killable).dead) {
             return;
         }
         if (us.vel.y > them.vel.y) {

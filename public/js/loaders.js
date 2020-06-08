@@ -1,4 +1,3 @@
-
 export var loadImage = (url) => {
     return new Promise(resolve => {
         const image = new Image();
